@@ -1,0 +1,355 @@
+
+# 1. Vérifier la version de Docker
+
+
+> docker --version
+Docker version 29.8.2, build 7fc2dff
+
+> docker version --format "Client {{.Client.Version}} / Serveur {{.Server.Version}}"
+Client 29.8.2 / Serveur 29.8.2
+
+# 2. Lister les images locales (vide au départ)
+
+
+> docker images
+IMAGE   ID             DISK USAGE   CONTENT SIZE   EXTRA
+
+# 3. Obtenir des images depuis Docker Hub
+
+
+> docker pull nginx:alpine
+alpine: Pulling from library/nginx
+e72112c14215: Pulling fs layer
+e2de96513ba9: Pulling fs layer
+d9aae54b5831: Pulling fs layer
+6c53d0b2a666: Pulling fs layer
+64c8194480fe: Pulling fs layer
+745dfb2690dd: Pulling fs layer
+9a9a644fdd6a: Pulling fs layer
+e76228b47809: Pulling fs layer
+0deea27e58d9: Download complete
+e76228b47809: Download complete
+d54d3939625e: Download complete
+e2de96513ba9: Download complete
+64c8194480fe: Download complete
+745dfb2690dd: Download complete
+9a9a644fdd6a: Download complete
+6c53d0b2a666: Download complete
+e2de96513ba9: Pull complete
+d9aae54b5831: Download complete
+d9aae54b5831: Pull complete
+6c53d0b2a666: Pull complete
+745dfb2690dd: Pull complete
+9a9a644fdd6a: Pull complete
+64c8194480fe: Pull complete
+e76228b47809: Pull complete
+e72112c14215: Download complete
+e72112c14215: Pull complete
+Digest: sha256:df221db836e1754089190208cee7eeda94f233197056426eda74a43ab1abeac2
+Status: Downloaded newer image for nginx:alpine
+docker.io/library/nginx:alpine
+
+> docker pull alpine
+Using default tag: latest
+latest: Pulling from library/alpine
+6d0606d1815c: Download complete
+797dd00a0fc7: Download complete
+Digest: sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
+Status: Downloaded newer image for alpine:latest
+docker.io/library/alpine:latest
+
+> docker images
+IMAGE           ID             DISK USAGE   CONTENT SIZE   EXTRA
+alpine:latest   294b683cb724         13MB         3.94MB        
+nginx:alpine    df221db836e1       94.4MB         27.2MB        
+
+# 4. Créer un conteneur à partir d'une image (sans le démarrer)
+
+
+> docker create --name nginx-cree -p 8081:80 nginx:alpine
+0c8d8fffb65b547051ddc9afdc7ab6dbe29ccb062dfa5abfa2d48a3aa4eeb450
+
+> docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS    PORTS     NAMES
+0c8d8fffb65b   nginx:alpine   "/docker-entrypoint.…"   1 second ago   Created             nginx-cree
+
+# 5. Créer ET démarrer un conteneur avec un terminal interactif (docker run -it). Ici les commandes sont envoyées au shell du conteneur par un pipe, car le terminal de l'outil n'est pas un vrai TTY ; en salle on tape : docker run -it --name alpine-it alpine sh
+
+
+> docker run -i --name alpine-it alpine sh   (commandes envoyées : cat /etc/alpine-release, hostname, whoami, ls /, exit)
+3.24.2
+0ea4671560b9
+root
+bin
+dev
+etc
+home
+lib
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+
+# 6. Lancer nginx en arrière-plan (-d) en publiant le port 8080 de l'hôte vers le port 80 du conteneur
+
+
+> docker run -d --name nginx-web -p 8080:80 nginx:alpine
+9b7b0d9bb3c745e0b63e90b54ef9ac90618545a661780b42d86f0c5bdac1e63b
+
+> curl.exe -s http://localhost:8080
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy, 
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional 
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+# 7. Lister les conteneurs en cours d'exécution
+
+
+> docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS        PORTS                                     NAMES
+9b7b0d9bb3c7   nginx:alpine   "/docker-entrypoint.…"   3 seconds ago   Up 1 second   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   nginx-web
+
+# 8. Lister les conteneurs arrêtés (et tous les conteneurs)
+
+
+> docker ps -a --filter status=exited --filter status=created
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                     PORTS     NAMES
+ea55bf06ce37   alpine         "sh"                     6 seconds ago    Exited (2) 4 seconds ago             alpine-it
+0c8d8fffb65b   nginx:alpine   "/docker-entrypoint.…"   18 seconds ago   Created                              nginx-cree
+
+> docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                     PORTS                                     NAMES
+9b7b0d9bb3c7   nginx:alpine   "/docker-entrypoint.…"   4 seconds ago    Up 2 seconds               0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   nginx-web
+ea55bf06ce37   alpine         "sh"                     7 seconds ago    Exited (2) 4 seconds ago                                             alpine-it
+0c8d8fffb65b   nginx:alpine   "/docker-entrypoint.…"   19 seconds ago   Created                                                              nginx-cree
+
+# 9. Arrêter un conteneur
+
+
+> docker stop nginx-web
+nginx-web
+
+> docker ps -a --filter name=nginx-web
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS                     PORTS     NAMES
+9b7b0d9bb3c7   nginx:alpine   "/docker-entrypoint.…"   8 seconds ago   Exited (0) 2 seconds ago             nginx-web
+
+> curl.exe -s -o NUL -w "code HTTP: %{http_code}\n" http://localhost:8080
+code HTTP: 000
+
+# 10. Démarrer un conteneur (existant, arrêté)
+
+
+> docker start nginx-web
+nginx-web
+
+> docker ps --filter name=nginx-web
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS         PORTS                                     NAMES
+9b7b0d9bb3c7   nginx:alpine   "/docker-entrypoint.…"   12 seconds ago   Up 2 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   nginx-web
+
+> curl.exe -s -o NUL -w "code HTTP: %{http_code}\n" http://localhost:8080
+code HTTP: 200
+
+# 11. Supprimer un conteneur (il doit être arrêté, ou forcer avec -f)
+
+
+> docker rm nginx-web
+Error response from daemon: cannot remove container "nginx-web": container is running: stop the container before removing or force remove
+
+> docker stop nginx-web
+nginx-web
+
+> docker rm nginx-web
+nginx-web
+
+> docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS     NAMES
+ea55bf06ce37   alpine         "sh"                     20 seconds ago   Exited (2) 18 seconds ago             alpine-it
+0c8d8fffb65b   nginx:alpine   "/docker-entrypoint.…"   32 seconds ago   Created                               nginx-cree
+
+# 12. Créer un volume et le monter sur un nouveau conteneur
+
+
+> docker volume create site-web
+site-web
+
+> docker volume ls
+DRIVER    VOLUME NAME
+local     site-web
+
+> docker volume inspect site-web
+[
+    {
+        "CreatedAt": "2026-10-14T08:57:37Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/site-web/_data",
+        "Name": "site-web",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+
+> docker run -d --name nginx-vol1 -p 8080:80 -v site-web:/usr/share/nginx/html nginx:alpine
+575f20f690918dbb442c6c2d1c5dc29b114e1eb0e61ee20c0495229bf728f3ae
+
+> curl.exe -s http://localhost:8080 | findstr "<title>"
+<title>Welcome to nginx!</title>
+
+# 13. Copier un fichier index.html (depuis le PC) dans le conteneur, donc dans le volume
+
+
+> docker cp tp1-fichiers\index.html nginx-vol1:/usr/share/nginx/html/index.html
+
+
+> curl.exe -s http://localhost:8080
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>TP Docker - persistance</title>
+</head>
+<body>
+  <h1>Page servie par nginx depuis un volume Docker</h1>
+  <p>Si ce texte s'affiche dans un nouveau conteneur, le volume a bien conservé les données.</p>
+</body>
+</html>
+
+> docker exec nginx-vol1 ls -l /usr/share/nginx/html
+total 8
+-rw-r--r--    1 root     root           497 Sep 15 14:18 50x.html
+-rwxr-xr-x    1 root     root           293 Oct 14 08:55 index.html
+
+# 14. Supprimer le conteneur, puis en relancer un autre en montant le même volume : la page est toujours là (persistance)
+
+
+> docker rm -f nginx-vol1
+nginx-vol1
+
+> docker ps -a --filter name=nginx-vol
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+> docker volume ls
+DRIVER    VOLUME NAME
+local     site-web
+
+> docker run -d --name nginx-vol2 -p 8080:80 -v site-web:/usr/share/nginx/html nginx:alpine
+59c4e0bedbcc8978ae528e141d4a1cf4fdb5a4a32902a78b14b3e05c52aee7b3
+
+> curl.exe -s http://localhost:8080
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>TP Docker - persistance</title>
+</head>
+<body>
+  <h1>Page servie par nginx depuis un volume Docker</h1>
+  <p>Si ce texte s'affiche dans un nouveau conteneur, le volume a bien conservé les données.</p>
+</body>
+</html>
+
+# Contre-exemple sans volume : le fichier copié disparaît avec le conteneur
+
+
+> docker run -d --name nginx-sans-vol -p 8083:80 nginx:alpine
+a6cd6ba1ecf309b2a7861533afa7608efcddda850184ac95eed21770077b627b
+
+> docker cp tp1-fichiers\index.html nginx-sans-vol:/usr/share/nginx/html/index.html
+
+
+> curl.exe -s http://localhost:8083 | findstr "<h1>"
+  <h1>Page servie par nginx depuis un volume Docker</h1>
+
+> docker rm -f nginx-sans-vol
+nginx-sans-vol
+
+> docker run -d --name nginx-sans-vol -p 8083:80 nginx:alpine
+03b3793fa86f26c8749c698107342f4b36898279d1245e3c5981d801ddf48397
+
+> curl.exe -s http://localhost:8083 | findstr "<h1>"
+<h1>Welcome to nginx!</h1>
+
+# 15. Supprimer tous les conteneurs
+
+
+> docker ps -aq
+03b3793fa86f
+59c4e0bedbcc
+0ea4671560b9
+0c8d8fffb65b
+
+> docker rm -f nginx-vol2 nginx-sans-vol nginx-cree alpine-it
+nginx-vol2
+nginx-sans-vol
+nginx-cree
+alpine-it
+
+> docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+# Version « tous les conteneurs » sans les nommer (PowerShell) : docker rm -f $(docker ps -aq)
+
+
+# 16. Supprimer tous les volumes
+
+
+> docker volume ls -q
+site-web
+
+> docker volume prune -a -f
+Deleted Volumes:
+site-web
+
+Total reclaimed space: 790B
+
+> docker volume ls
+DRIVER    VOLUME NAME
+
+# Version PowerShell équivalente : docker volume rm $(docker volume ls -q)
+
+
+# État final : il ne reste que les images, réutilisées pour la partie 2
+
+
+> docker images
+IMAGE           ID             DISK USAGE   CONTENT SIZE   EXTRA
+alpine:latest   294b683cb724         13MB         3.94MB        
+nginx:alpine    df221db836e1       94.4MB         27.2MB        
+
+> docker system df
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          2         0         94.54MB   81.59MB (86%)
+Containers      0         0         0B        0B
+Local Volumes   0         0         0B        0B
+Build Cache     0         0         0B        0B
