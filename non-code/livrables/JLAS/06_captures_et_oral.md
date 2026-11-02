@@ -1,11 +1,10 @@
 # Captures d'écran et trame de l'oral
 
 ## A. Captures d'écran (dossier `captures/`)
-13 captures sur 14 ont été prises automatiquement (capture de fenêtre par script et pilotage de Docker Desktop par l'API d'accessibilité de Windows) et sont déjà insérées dans les comptes rendus `.docx`.
+Les 13 captures ci-dessous ont été prises automatiquement (capture de fenêtre par script et pilotage de Docker Desktop par l'API d'accessibilité de Windows) et sont déjà insérées dans les comptes rendus `.docx`.
 
 | # | Fichier | Contenu | Section | État |
 |---|---|---|---|---|
-| 1 | `01-fonctionnalites-windows.png` | *Activer ou désactiver des fonctionnalités Windows* : « Plateforme de machine virtuelle » et « Sous-système Windows pour Linux » cochées | Journal, étape 1 | **À faire** |
 | 2 | `02-docker-demarrage.png` | Écran « Starting the Docker Engine… » | Journal, étape 4 | Fait |
 | 4 | `04-images.png` | Onglet Images : `nginx:alpine` et `alpine` | TP1 §3 | Fait |
 | 5 | `05-recherche-pull.png` | Recherche « nginx » : tag, Pull, Run | TP1 §3 | Fait |
@@ -18,14 +17,6 @@
 | 12 | `12-wsl-debian.png` | `wsl -l -v` et Debian 13 | Journal, étape 5 | Fait |
 | 13 | `13-reseaux-ping.png` | Réseau `mon_reseau` et ping alpine1 ↔ alpine2 | TP2 ex. 1 | Fait |
 | 14 | `14-curl-client.png` | Réseau `mon_reseau_web`, curl depuis le client | TP2 ex. 2 | Fait |
-
-**Capture n° 1, à faire à la main** (la fenêtre s'exécute en administrateur, Windows bloque son pilotage par un script) :
-1. `Win + R` → taper `optionalfeatures` → Entrée (accepter la demande d'autorisation si elle apparaît).
-2. Faire défiler jusqu'en bas pour voir « Plateforme de machine virtuelle » et « Sous-système Windows pour Linux » cochées.
-3. Capturer la fenêtre avec Screenpresso (touche `Impr. écran`, puis sélectionner la fenêtre).
-4. L'enregistrer sous `captures/01-fonctionnalites-windows.png`.
-5. Cliquer sur **Annuler** (surtout pas OK : rien ne doit être modifié).
-6. Demander à Claude de régénérer les `.docx` : la capture remplacera l'emplacement rouge du compte rendu.
 
 ## B. Trame de l'oral (10 min max, binôme, temps de parole égal)
 Critères notés : respect du temps, partage équitable, concision, vocabulaire correct, **démonstration sur machine**, document d'appui remis à l'enseignant.

@@ -131,7 +131,7 @@ function convert(md, dir) {
 const header = [
   new Paragraph({ children: [new TextRun({ text: 'NOMS : ', bold: true }), new TextRun('BOURDIN POMBO — GUILLON')] }),
   new Paragraph({ children: [new TextRun({ text: 'Prénoms : ', bold: true }), new TextRun('Azur — Ewen')] }),
-  new Paragraph({ children: [new TextRun({ text: 'Groupe : ', bold: true })] }),
+  new Paragraph({ children: [new TextRun({ text: 'Groupe : ', bold: true }), new TextRun('Azur BOURDIN POMBO et Ewen GUILLON')] }),
   new Paragraph({ children: [new TextRun({ text: 'Date : ', bold: true }), new TextRun('14/10/2026')], spacing: { after: 360 } }),
   new Paragraph({ heading: HeadingLevel.TITLE, alignment: AlignmentType.CENTER, children: [new TextRun(title)] }),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 360 },

@@ -42,8 +42,6 @@ Il faut deux fonctionnalités Windows :
 
 Un **redémarrage** est obligatoire après l'activation.
 
-![Fonctionnalités Windows : « Plateforme de machine virtuelle » et « Sous-système Windows pour Linux » cochées](captures/01-fonctionnalites-windows.png)
-
 ## Étape 2 — Installer Docker Desktop
 
 Deux manières :
