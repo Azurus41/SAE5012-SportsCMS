@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import api, { mutate, useApi } from '../api/index.js';
 import { slugify } from '../api/mockApi.js';
 import { ROLES } from '../api/seed.js';
@@ -42,7 +42,7 @@ export default function EditorPage() {
 
   if (!ready) return null;
   if (isNew && !can.createArticle(user)) {
-    return <Denied message="Seuls les auteurs, éditeurs et administrateurs peuvent créer des articles. Choisissez un compte avec « Se connecter »." />;
+    return <Denied message="Seuls les auteurs, éditeurs et administrateurs peuvent créer des articles." login={!user} />;
   }
   if (!isNew && error) return <Denied message="Article introuvable." />;
   if (!isNew && !loaded) return <p className="container page-pad muted">Chargement…</p>;
@@ -52,14 +52,22 @@ export default function EditorPage() {
   return <Editor key={loaded?.id || 'new'} initial={loaded || emptyArticle(user)} user={user} />;
 }
 
-function Denied({ message }) {
+function Denied({ message, login = false }) {
+  const location = useLocation();
   return (
     <section className="container page-pad">
-      <h1 className="page-title">Accès refusé</h1>
+      <h1 className="page-title">{login ? 'Connexion requise' : 'Accès refusé'}</h1>
       <p className="lead-sm">{message}</p>
-      <Link to="/articles" className="btn btn-primary">
-        Retour aux articles
-      </Link>
+      <div className="form-actions">
+        {login && (
+          <Link to={`/connexion?next=${encodeURIComponent(location.pathname)}`} className="btn btn-primary">
+            Se connecter
+          </Link>
+        )}
+        <Link to="/articles" className={`btn ${login ? 'btn-secondary' : 'btn-primary'}`}>
+          Retour aux articles
+        </Link>
+      </div>
     </section>
   );
 }
@@ -598,11 +606,24 @@ const isTextField = (el) => el && (el.tagName === 'TEXTAREA' || el.tagName === '
 
 function AutoTextarea({ value, onChange, className, registerRef, ...rest }) {
   const ref = useRef(null);
+  // La hauteur suit le texte… et la largeur (ouverture d'un panneau latéral, redimensionnement).
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-    el.style.height = 'auto';
-    el.style.height = `${el.scrollHeight}px`;
+    if (!el) return undefined;
+    const fit = () => {
+      el.style.height = 'auto';
+      el.style.height = `${el.scrollHeight}px`;
+    };
+    fit();
+    let width = el.clientWidth;
+    const ro = new ResizeObserver(() => {
+      if (el.clientWidth !== width) {
+        width = el.clientWidth;
+        fit();
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
   }, [value]);
   return (
     <textarea

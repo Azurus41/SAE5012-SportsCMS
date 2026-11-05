@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage.jsx';
 import ExplorePage from './pages/ExplorePage.jsx';
 import ArticlePage from './pages/ArticlePage.jsx';
 import AuthorsPage from './pages/AuthorsPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 
 // L'éditeur et les paramètres ne servent qu'aux contributeurs : chargés à la demande (bundle public plus léger).
 const EditorPage = lazy(() => import('./editor/EditorPage.jsx'));
@@ -84,6 +85,7 @@ export default function App() {
           <Route path="parametres/:section" element={<SettingsPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
+        <Route path="connexion" element={<LoginPage />} />
         <Route element={<EditorLayout />}>
           <Route path="editeur/nouveau" element={<EditorPage />} />
           <Route path="editeur/:id" element={<EditorPage />} />

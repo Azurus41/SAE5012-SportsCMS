@@ -1,4 +1,4 @@
-import { NavLink, Navigate, useParams } from 'react-router-dom';
+import { Link, NavLink, Navigate, useParams } from 'react-router-dom';
 import api from '../api/index.js';
 import { useSession } from '../auth/SessionContext.jsx';
 import can from '../auth/permissions.js';
@@ -19,8 +19,13 @@ export default function SettingsPage() {
       <section className="container page-pad">
         <h1 className="page-title">Paramètres</h1>
         <p className="lead-sm">
-          Cet espace est réservé aux fournisseurs de données, aux designers et aux administrateurs. Choisissez un compte avec le bouton « Se connecter ».
+          Cet espace est réservé aux fournisseurs de données, aux designers et aux administrateurs.
         </p>
+        {!user && (
+          <Link to="/connexion?next=/parametres" className="btn btn-primary">
+            Se connecter
+          </Link>
+        )}
       </section>
     );
   }

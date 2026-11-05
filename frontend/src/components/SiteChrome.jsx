@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useSession } from '../auth/SessionContext.jsx';
 import can from '../auth/permissions.js';
-import api, { useApi } from '../api/index.js';
 import { ROLES } from '../api/seed.js';
+import { initials } from '../constants.js';
 
-export function BrandMark({ large = false }) {
+export function BrandMark({ large = false, rounded = false }) {
   return (
-    <span className={`brand-mark ${large ? 'is-large' : ''}`} aria-hidden="true">
+    <span className={`brand-mark ${large ? 'is-large' : ''} ${rounded ? 'is-rounded' : ''}`} aria-hidden="true">
       <i />
       <i />
       <i />
@@ -51,7 +51,7 @@ export function SiteHeader() {
             {showSettings && <NavLink to="/parametres">Paramètres</NavLink>}
           </nav>
           <div className="account-actions">
-            <AccountSwitcher />
+            <AccountMenu />
             {can.createArticle(user) && (
               <Link to="/editeur/nouveau" className="btn btn-primary">
                 Publier un article
@@ -64,12 +64,13 @@ export function SiteHeader() {
   );
 }
 
-// Connexion de démonstration : en attendant l'authentification Symfony, on choisit un compte par rôle.
-function AccountSwitcher() {
-  const { user, login } = useSession();
+// Non connecté : bouton « Connexion » (maquette). Connecté : badge du rôle + menu du compte.
+function AccountMenu() {
+  const { user, logout } = useSession();
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
-  const { data: users = [] } = useApi(() => api.users.list(), []);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!open) return undefined;
@@ -85,51 +86,48 @@ function AccountSwitcher() {
     };
   }, [open]);
 
-  const label = user ? ROLES[user.role] : 'Se connecter';
+  if (!user) {
+    const next = encodeURIComponent(location.pathname + location.search);
+    return (
+      <Link to={`/connexion?next=${next}`} className="btn btn-secondary">
+        Connexion
+      </Link>
+    );
+  }
+
   return (
     <div className="account" ref={ref}>
       <button
         type="button"
-        className={user ? 'role-badge' : 'btn btn-secondary'}
+        className="role-badge"
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        title={user ? `Connecté : ${user.name}` : undefined}
+        title={`Connecté : ${user.name}`}
       >
-        {label}
+        {ROLES[user.role]}
       </button>
       {open && (
         <div className="account-menu" role="menu">
-          <p className="eyebrow">Compte de démonstration</p>
-          {users.map((u) => (
-            <button
-              key={u.id}
-              type="button"
-              role="menuitemradio"
-              aria-checked={user?.id === u.id}
-              onClick={() => {
-                login(u.id);
-                setOpen(false);
-              }}
-            >
-              <span>{u.name}</span>
-              <small>
-                {ROLES[u.role]}
-                {u.banned ? ' · banni' : ''}
-              </small>
-            </button>
-          ))}
+          <div className="account-who">
+            <span className="avatar small" aria-hidden="true">
+              {initials(user.name)}
+            </span>
+            <span>
+              <strong>{user.name}</strong>
+              <small>{user.email}</small>
+            </span>
+          </div>
           <button
             type="button"
-            role="menuitemradio"
-            aria-checked={!user}
-            onClick={() => {
-              login(null);
+            role="menuitem"
+            onClick={async () => {
               setOpen(false);
+              await logout();
+              navigate('/');
             }}
           >
             <span>Se déconnecter</span>
-            <small>Visiteur</small>
           </button>
         </div>
       )}

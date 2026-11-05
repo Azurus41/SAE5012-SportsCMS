@@ -24,9 +24,13 @@ npm test           # tests unitaires (CSV, types de variables, règles des graph
 ```
 
 Sans back, le front fonctionne avec une **API simulée** (données dans le `localStorage` du navigateur).
-Le bouton « Se connecter » de l'en-tête permet de choisir un compte de démonstration pour chaque rôle :
-visiteur, abonné, auteur, éditeur, designer, fournisseur de données, administrateur.
-Un administrateur peut remettre la démo à zéro depuis Paramètres.
+
+**Connexion** : bouton « Connexion » de l'en-tête (page `/connexion`, d'après la maquette Figma).
+Un compte de test existe pour chaque rôle (abonné, auteur, éditeur, designer, fournisseur de données,
+administrateur) ; les identifiants sont dans [`docs/comptes-de-test.md`](docs/comptes-de-test.md).
+Sans connexion, on navigue en **visiteur**. Le site ne contient que les empreintes PBKDF2 des mots de passe ;
+`node scripts/create-test-accounts.mjs` régénère tous les comptes. Un administrateur peut remettre la démo
+à zéro depuis Paramètres.
 
 ## Version en ligne
 

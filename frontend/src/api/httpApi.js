@@ -27,7 +27,8 @@ const httpApi = {
   mode: 'http',
   session: {
     current: () => call('GET', '/me').catch(() => null),
-    login: (userId) => call('POST', '/login', { userId }),
+    login: (email, password) => call('POST', '/login', { email, password }),
+    logout: () => call('POST', '/logout'),
   },
   users: {
     list: () => call('GET', '/users'),

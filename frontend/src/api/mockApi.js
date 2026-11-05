@@ -1,10 +1,17 @@
 // API simulée : même interface que httpApi.js, données conservées dans le localStorage du navigateur.
 // Elle applique les mêmes contrôles de droits que l'API Symfony devra appliquer (réponse 403 simulée).
 import { createSeed } from './seed.js';
+import { ACCOUNTS } from './accounts.js';
 import can from '../auth/permissions.js';
+import { verifyPassword } from '../auth/password.js';
 
-const KEY = 'touchline-db-v1';
-const SESSION_KEY = 'touchline-session';
+// v2 : comptes avec e-mail et mot de passe (les anciennes données de démonstration sont ignorées).
+const KEY = 'touchline-db-v2';
+const SESSION_KEY = 'touchline-session-v2';
+
+// Ce que l'API renvoie sur un utilisateur : jamais l'empreinte du mot de passe.
+const publicUser = (u) => (u ? { id: u.id, name: u.name, role: u.role, banned: !!u.banned } : null);
+const sessionUser = (u) => (u ? { ...publicUser(u), email: u.email } : null);
 
 function load() {
   try {
@@ -66,22 +73,34 @@ const mockApi = {
 
   session: {
     async current() {
-      return delay(currentUser());
+      return delay(sessionUser(currentUser()));
     },
-    async login(userId) {
+    async login(email, password) {
+      const user = db.users.find((u) => u.email?.toLowerCase() === String(email).trim().toLowerCase());
+      const account = user && ACCOUNTS[user.id];
+      const ok = account ? await verifyPassword(String(password), account.salt, account.hash) : false;
+      if (!ok) throw new ApiError(401, 'E-mail ou mot de passe incorrect.');
+      if (user.banned) throw new ApiError(403, 'Ce compte a été suspendu par la modération.');
       try {
-        if (userId) localStorage.setItem(SESSION_KEY, userId);
-        else localStorage.removeItem(SESSION_KEY);
+        localStorage.setItem(SESSION_KEY, user.id);
       } catch {
         /* ignore */
       }
-      return delay(currentUser());
+      return delay(sessionUser(user));
+    },
+    async logout() {
+      try {
+        localStorage.removeItem(SESSION_KEY);
+      } catch {
+        /* ignore */
+      }
+      return delay(null);
     },
   },
 
   users: {
     async list() {
-      return delay(db.users);
+      return delay(db.users.map(publicUser));
     },
     async setBanned(id, banned) {
       guard(can.banAuthor(currentUser()));
@@ -89,7 +108,7 @@ const mockApi = {
       if (!user) throw new ApiError(404, 'Utilisateur introuvable.');
       user.banned = banned;
       persist();
-      return delay(user);
+      return delay(publicUser(user));
     },
   },
 

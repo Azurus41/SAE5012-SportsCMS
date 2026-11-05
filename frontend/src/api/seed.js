@@ -1,5 +1,6 @@
 // Données de démonstration (illustratives) reprenant les contenus de la maquette Figma « Touchline ».
 // Elles alimentent l'API simulée tant que l'API Symfony n'est pas branchée.
+import { ACCOUNTS } from './accounts.js';
 
 export const ROLES = {
   visitor: 'Visiteur',
@@ -11,6 +12,7 @@ export const ROLES = {
   admin: 'Administrateur',
 };
 
+// Les e-mails et empreintes de mot de passe viennent de accounts.js (scripts/create-test-accounts.mjs).
 const users = [
   { id: 'u-admin', name: 'Camille Admin', role: 'admin', banned: false },
   { id: 'u-alex', name: 'Alex Morgan', role: 'author', banned: false },
@@ -20,7 +22,7 @@ const users = [
   { id: 'u-priya', name: 'Priya Shah', role: 'author', banned: false },
   { id: 'u-nora', name: 'Nora Design', role: 'designer', banned: false },
   { id: 'u-dan', name: 'Dan Data', role: 'provider', banned: false },
-];
+].map((u) => ({ ...u, email: ACCOUNTS[u.id]?.email }));
 
 const v = (name, kind) => ({ name, kind });
 

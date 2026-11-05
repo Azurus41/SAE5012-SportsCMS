@@ -83,7 +83,7 @@ export default function HomePage() {
           <p className="muted small">
             {admin
               ? 'Vue administrative pour les modérateurs et administrateurs de la plateforme.'
-              : 'Données de démonstration illustratives. Choisissez un rôle avec le bouton « Se connecter ».'}
+              : 'Données de démonstration illustratives. Les contributeurs se connectent avec le bouton « Connexion ».'}
           </p>
         </div>
 

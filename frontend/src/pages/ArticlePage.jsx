@@ -350,7 +350,12 @@ function Comments({ article, users, user, run }) {
           </div>
         </form>
       ) : (
-        <p className="muted small">Connectez-vous en tant qu’abonné pour commenter et noter les blocs.</p>
+        <p className="muted small">
+          <Link to={`/connexion?next=/articles/${article.slug}`} className="text-link small">
+            Connectez-vous
+          </Link>{' '}
+          pour commenter et noter les blocs.
+        </p>
       )}
       <ul className="comment-list">
         {comments.map((c) => {

@@ -27,9 +27,13 @@ Chaque auteur peut aussi régler l'**apparence de ses propres articles** (`theme
 
 | Méthode | Route | Rôle | Description |
 |---|---|---|---|
-| GET | `/me` | tous | Utilisateur connecté ou `null` |
-| POST | `/login` | — | `{ email, password }` → utilisateur |
+| GET | `/me` | tous | Utilisateur connecté `{ id, name, role, banned, email }` ou `null` |
+| POST | `/login` | — | `{ email, password }` → utilisateur ; 401 si identifiants faux, 403 si compte banni |
 | POST | `/logout` | connecté | Ferme la session |
+
+Les comptes de test de `docs/comptes-de-test.md` sont à recréer en fixtures Doctrine (mot de passe haché
+par le `UserPasswordHasher` de Symfony). L'API ne renvoie jamais l'empreinte d'un mot de passe, et
+`GET /users` ne renvoie pas les e-mails.
 
 ## Utilisateurs
 

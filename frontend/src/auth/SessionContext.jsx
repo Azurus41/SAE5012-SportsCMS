@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import api, { notifyChange } from '../api/index.js';
 
-const SessionContext = createContext({ user: null, ready: false, login: async () => {} });
+const SessionContext = createContext({ user: null, ready: false, login: async () => {}, logout: async () => {} });
 
 export function SessionProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -14,17 +14,23 @@ export function SessionProvider({ children }) {
     });
   }, []);
 
-  const login = useCallback(async (userId) => {
-    const u = await api.session.login(userId);
+  // Lève une erreur (401 / 403) si les identifiants sont refusés : la page de connexion l'affiche.
+  const login = useCallback(async (email, password) => {
+    const u = await api.session.login(email, password);
     setUser(u);
     notifyChange();
     return u;
   }, []);
 
-  // Le bannissement de l'utilisateur courant doit être répercuté immédiatement.
+  const logout = useCallback(async () => {
+    await api.session.logout();
+    setUser(null);
+    notifyChange();
+  }, []);
+
   const refresh = useCallback(async () => setUser(await api.session.current()), []);
 
-  return <SessionContext.Provider value={{ user, ready, login, refresh }}>{children}</SessionContext.Provider>;
+  return <SessionContext.Provider value={{ user, ready, login, logout, refresh }}>{children}</SessionContext.Provider>;
 }
 
 export const useSession = () => useContext(SessionContext);
