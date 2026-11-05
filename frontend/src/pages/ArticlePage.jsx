@@ -10,6 +10,7 @@ import StarRating from '../components/StarRating.jsx';
 import { useAction, useToast } from '../components/Toast.jsx';
 import { SPORTS, TOPICS, formatDate, initials, readingTime } from '../constants.js';
 import { themeStyle } from '../theme/themeFields.js';
+import { resolveUrl } from '../data/datasetLoader.js';
 
 export default function ArticlePage() {
   const { slug } = useParams();
@@ -250,7 +251,7 @@ function ArticleView({ article, author, users, datasets, media, style }) {
               <p className="source-title">Sources &amp; méthodologie</p>
               {usedDatasets.map((d) => (
                 <p key={d.id} className="muted small">
-                  <a href={d.url.startsWith('data:') ? undefined : d.url} download={d.name} className="text-link">
+                  <a href={d.url.startsWith('data:') ? undefined : resolveUrl(d.url)} download={d.name} className="text-link">
                     {d.name}
                   </a>{' '}
                   · {d.rows ? `${d.rows} lignes · ` : ''}

@@ -28,6 +28,19 @@ Le bouton « Se connecter » de l'en-tête permet de choisir un compte de démon
 visiteur, abonné, auteur, éditeur, designer, fournisseur de données, administrateur.
 Un administrateur peut remettre la démo à zéro depuis Paramètres.
 
+## Version en ligne
+
+Démonstration publiée sur **https://deepdraft.fr/touchdown/** (hébergement alwaysdata, mode démonstration :
+les données restent dans le navigateur de chaque visiteur). Pour republier après une modification :
+
+```bash
+./scripts/deploy-alwaysdata.sh
+```
+
+Le script lance les tests, construit le front pour le sous-dossier `/touchdown/` (`VITE_BASE`) et envoie
+les fichiers par SSH avec la clé de déploiement `~/.ssh/alwaysdata_touchline`, autorisée dans
+l'administration alwaysdata (Accès distant → SSH/SFTP → Clés SSH). Seuls les fichiers de Touchline sont remplacés.
+
 ## Lancer avec Docker
 
 ```bash

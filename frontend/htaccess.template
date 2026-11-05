@@ -1,13 +1,14 @@
-# Hébergement Apache (alwaysdata, site de type PHP pointant sur le dossier du build).
+# Hébergement Apache (alwaysdata). Généré au build depuis frontend/htaccess.template (sous-dossier = VITE_BASE).
 # Les routes de l'application React (/articles, /editeur/…) sont servies par index.html.
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /
+  RewriteBase __BASE__
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteRule . __BASE__index.html [L]
 </IfModule>
+ErrorDocument 404 __BASE__index.html
 
 # Éco-conception : compression et cache long des fichiers versionnés par Vite.
 <IfModule mod_deflate.c>

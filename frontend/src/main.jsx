@@ -12,7 +12,8 @@ import { ToastProvider } from './components/Toast.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* basename : l'application peut être servie dans un sous-dossier (VITE_BASE, ex. /touchdown/). */}
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
       <SessionProvider>
         <ToastProvider>
           <App />
