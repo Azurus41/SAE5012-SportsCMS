@@ -1,0 +1,225 @@
+{
+ "filters": {
+  "season": "2026"
+ },
+ "competition": {
+  "name": "Ligue Touchline (fictive)",
+  "code": "TL1"
+ },
+ "season": {
+  "startDate": "2026-08-08",
+  "endDate": "2027-05-22"
+ },
+ "standings": [
+  {
+   "stage": "REGULAR_SEASON",
+   "type": "TOTAL",
+   "table": [
+    {
+     "position": 1,
+     "team": {
+      "id": 100,
+      "name": "Tours Olympique",
+      "shortName": "Tours",
+      "tla": "TOU"
+     },
+     "playedGames": 22,
+     "won": 22,
+     "draw": 0,
+     "lost": 0,
+     "points": 66,
+     "goalsFor": 41,
+     "goalsAgainst": 31,
+     "goalDifference": 10
+    },
+    {
+     "position": 2,
+     "team": {
+      "id": 101,
+      "name": "Romorantin AC",
+      "shortName": "Romorantin",
+      "tla": "ROM"
+     },
+     "playedGames": 22,
+     "won": 22,
+     "draw": 0,
+     "lost": 0,
+     "points": 66,
+     "goalsFor": 39,
+     "goalsAgainst": 32,
+     "goalDifference": 7
+    },
+    {
+     "position": 3,
+     "team": {
+      "id": 102,
+      "name": "Chinon Rovers",
+      "shortName": "Chinon",
+      "tla": "CHI"
+     },
+     "playedGames": 22,
+     "won": 20,
+     "draw": 2,
+     "lost": 0,
+     "points": 62,
+     "goalsFor": 36,
+     "goalsAgainst": 32,
+     "goalDifference": 4
+    },
+    {
+     "position": 4,
+     "team": {
+      "id": 103,
+      "name": "Orléans Sporting",
+      "shortName": "Orléans",
+      "tla": "ORL"
+     },
+     "playedGames": 22,
+     "won": 20,
+     "draw": 1,
+     "lost": 1,
+     "points": 61,
+     "goalsFor": 35,
+     "goalsAgainst": 34,
+     "goalDifference": 1
+    },
+    {
+     "position": 5,
+     "team": {
+      "id": 104,
+      "name": "Loire United",
+      "shortName": "Loire",
+      "tla": "LOI"
+     },
+     "playedGames": 22,
+     "won": 19,
+     "draw": 2,
+     "lost": 1,
+     "points": 59,
+     "goalsFor": 34,
+     "goalsAgainst": 32,
+     "goalDifference": 2
+    },
+    {
+     "position": 6,
+     "team": {
+      "id": 105,
+      "name": "Blois Atlético",
+      "shortName": "Blois",
+      "tla": "BLO"
+     },
+     "playedGames": 22,
+     "won": 19,
+     "draw": 0,
+     "lost": 3,
+     "points": 57,
+     "goalsFor": 32,
+     "goalsAgainst": 30,
+     "goalDifference": 2
+    },
+    {
+     "position": 7,
+     "team": {
+      "id": 106,
+      "name": "Amboise Athletic",
+      "shortName": "Amboise",
+      "tla": "AMB"
+     },
+     "playedGames": 22,
+     "won": 19,
+     "draw": 0,
+     "lost": 3,
+     "points": 57,
+     "goalsFor": 34,
+     "goalsAgainst": 40,
+     "goalDifference": -6
+    },
+    {
+     "position": 8,
+     "team": {
+      "id": 107,
+      "name": "Bourges Union",
+      "shortName": "Bourges",
+      "tla": "BOU"
+     },
+     "playedGames": 22,
+     "won": 18,
+     "draw": 2,
+     "lost": 2,
+     "points": 56,
+     "goalsFor": 34,
+     "goalsAgainst": 39,
+     "goalDifference": -5
+    },
+    {
+     "position": 9,
+     "team": {
+      "id": 108,
+      "name": "Gien Étoile",
+      "shortName": "Gien",
+      "tla": "GIE"
+     },
+     "playedGames": 22,
+     "won": 18,
+     "draw": 1,
+     "lost": 3,
+     "points": 55,
+     "goalsFor": 30,
+     "goalsAgainst": 38,
+     "goalDifference": -8
+    },
+    {
+     "position": 10,
+     "team": {
+      "id": 109,
+      "name": "Racing Chambord",
+      "shortName": "Racing",
+      "tla": "RAC"
+     },
+     "playedGames": 22,
+     "won": 17,
+     "draw": 0,
+     "lost": 5,
+     "points": 51,
+     "goalsFor": 30,
+     "goalsAgainst": 36,
+     "goalDifference": -6
+    },
+    {
+     "position": 11,
+     "team": {
+      "id": 110,
+      "name": "Vendôme FC",
+      "shortName": "Vendôme",
+      "tla": "VEN"
+     },
+     "playedGames": 22,
+     "won": 16,
+     "draw": 0,
+     "lost": 6,
+     "points": 48,
+     "goalsFor": 27,
+     "goalsAgainst": 37,
+     "goalDifference": -10
+    },
+    {
+     "position": 12,
+     "team": {
+      "id": 111,
+      "name": "Saumur City",
+      "shortName": "Saumur",
+      "tla": "SAU"
+     },
+     "playedGames": 22,
+     "won": 15,
+     "draw": 2,
+     "lost": 5,
+     "points": 47,
+     "goalsFor": 29,
+     "goalsAgainst": 44,
+     "goalDifference": -15
+    }
+   ]
+  }
+ ]
+}

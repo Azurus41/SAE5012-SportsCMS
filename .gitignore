@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+.claude/
+*.log
+.DS_Store
+backend/vendor/
+backend/var/
