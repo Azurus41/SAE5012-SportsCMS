@@ -19,6 +19,7 @@
         "symfony/rate-limiter": "7.4.*",
         "symfony/runtime": "7.4.*",
         "symfony/security-bundle": "7.4.*",
+        "symfony/var-exporter": "7.4.*",
         "symfony/yaml": "7.4.*"
     },
     "config": {
