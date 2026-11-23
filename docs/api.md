@@ -29,10 +29,12 @@ Chaque auteur peut aussi régler l'**apparence de ses propres articles** (`theme
 |---|---|---|---|
 | GET | `/me` | tous | Utilisateur connecté `{ id, name, role, banned, email }` ou `null` |
 | POST | `/login` | — | `{ email, password }` → utilisateur ; 401 si identifiants faux, 403 si compte banni |
-| POST | `/logout` | connecté | Ferme la session |
+| POST | `/logout` | connecté | Ferme la session (204) |
+| POST | `/register` | — | `{ name, email, password }` → compte **abonné** (201) ; 409 si l'e-mail existe, 422 si mot de passe < 10 caractères, 429 au-delà de 5 comptes/heure/IP |
 
-Les comptes de test de `docs/comptes-de-test.md` sont à recréer en fixtures Doctrine (mot de passe haché
-par le `UserPasswordHasher` de Symfony). L'API ne renvoie jamais l'empreinte d'un mot de passe, et
+Implémentation : `backend/` (Symfony 7.4). Les comptes de test de `docs/comptes-de-test.md` sont créés par
+`php bin/console app:seed` avec leurs empreintes PBKDF2, converties en empreinte `auto` (bcrypt/argon2)
+par le `UserPasswordHasher` de Symfony à la première connexion. L'API ne renvoie jamais l'empreinte d'un mot de passe, et
 `GET /users` ne renvoie pas les e-mails.
 
 ## Utilisateurs
@@ -40,7 +42,7 @@ par le `UserPasswordHasher` de Symfony). L'API ne renvoie jamais l'empreinte d'u
 | Méthode | Route | Rôle | Description |
 |---|---|---|---|
 | GET | `/users` | tous | `[{ id, name, role, banned }]` (pas d'e-mail en public) |
-| PATCH | `/users/{id}` | admin | `{ banned: true|false }` |
+| PATCH | `/users/{id}` | admin | `{ banned: true|false }` et/ou `{ role }` (pas sur son propre compte) |
 
 ## Articles
 
@@ -128,7 +130,7 @@ téléchargé par le navigateur au moment d'afficher la visualisation.
 | PUT | `/datasets/{id}` | fournisseur, admin | Modifie (types des variables…) |
 | DELETE | `/datasets/{id}` | fournisseur, admin | 409 si utilisé par un article |
 | POST | `/files` | fournisseur, auteur, admin | Dépôt d'un CSV (multipart `file`) → `{ url, name, size }` |
-| GET | `/proxy/{datasetId}` | tous | Relais vers une API open data qui exige une clé |
+| GET | `/proxy/{datasetId}` | tous | Relais vers une API open data qui exige une clé (**pas encore implémenté**) |
 
 ```json
 {

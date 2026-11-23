@@ -14,13 +14,16 @@ export default function AuthorsPage() {
   const { data: ratings = [] } = useApi(() => api.ratings.summary(), []);
   const moderator = can.moderate(user);
 
-  const writers = users.filter((u) => ['author', 'editor', 'admin'].includes(u.role) && (moderator || !u.banned));
+  // L'administrateur voit tous les comptes (y compris les abonnés inscrits) pour leur attribuer un rôle.
+  const writers = moderator ? users : users.filter((u) => ['author', 'editor', 'admin'].includes(u.role) && !u.banned);
   return (
     <section className="container page-pad">
       <p className="eyebrow accent">{moderator ? 'GESTION DES AUTEURS' : 'LA RÉDACTION'}</p>
       <h1 className="page-title">Auteurs</h1>
       <p className="lead-sm">
-        {moderator ? 'Suivez l’activité des auteurs et appliquez des mesures de modération.' : 'Les journalistes et analystes qui racontent le sport par les données.'}
+        {moderator
+          ? 'Suivez l’activité des comptes, attribuez les rôles et appliquez des mesures de modération.'
+          : 'Les journalistes et analystes qui racontent le sport par les données.'}
       </p>
       <ul className="author-list">
         {writers.map((u) => {
@@ -47,6 +50,23 @@ export default function AuthorsPage() {
                   </p>
                 )}
               </div>
+              {moderator && u.id !== user.id && (
+                <label className="small">
+                  <span className="sr-only">Rôle de {u.name}</span>
+                  <select
+                    value={u.role}
+                    onChange={(e) => run(mutate(api.users.setRole(u.id, e.target.value)), `Rôle de ${u.name} : ${ROLES[e.target.value]}.`)}
+                  >
+                    {Object.entries(ROLES)
+                      .filter(([k]) => k !== 'visitor')
+                      .map(([k, label]) => (
+                        <option key={k} value={k}>
+                          {label}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+              )}
               {moderator && u.role !== 'admin' && (
                 <button
                   type="button"

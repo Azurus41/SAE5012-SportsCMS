@@ -1,0 +1,25 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    http_method_override: false
+    handle_all_throwables: true
+    session:
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        name: TOUCHLINE_SESSION
+        cookie_secure: auto
+        cookie_samesite: lax
+        cookie_httponly: true
+        cookie_lifetime: 0
+    php_errors:
+        log: true
+    rate_limiter:
+        # Création de comptes : 5 par heure et par adresse IP.
+        registration:
+            policy: sliding_window
+            limit: 5
+            interval: '1 hour'
+
+when@prod:
+    framework:
+        router:
+            strict_requirements: null

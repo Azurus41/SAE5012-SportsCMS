@@ -1,6 +1,7 @@
 # Touchline — environnement Docker (SAÉ 501.2, partie R508).
 #   docker compose up -d --build                 -> front (nginx) + MySQL + phpMyAdmin
-#   docker compose --profile back up -d --build  -> + PHP-FPM pour le back Symfony (dossier backend/ à créer)
+#   docker compose --profile back up -d --build  -> + PHP-FPM pour le back Symfony (dossier backend/)
+#   Tables et comptes de test : docker compose exec php sh -c "composer install && php bin/console doctrine:migrations:migrate -n && php bin/console app:seed"
 # Copier .env.example en .env avant le premier lancement.
 
 services:
@@ -27,7 +28,11 @@ services:
       context: ./docker/php
     image: ${HUB_NAMESPACE:-touchline}/touchline-php:${TAG:-latest}
     environment:
+      APP_ENV: ${APP_ENV:-dev}
+      APP_SECRET: ${APP_SECRET:-change-me}
       DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}?serverVersion=8.4&charset=utf8mb4"
+      UPLOAD_DIR: /var/www/uploads
+      UPLOAD_URL: /uploads
       FOOTBALL_DATA_KEY: ${FOOTBALL_DATA_KEY:-}
     volumes:
       - ./backend:/var/www/backend
@@ -46,7 +51,6 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s

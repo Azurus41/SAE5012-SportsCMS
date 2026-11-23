@@ -6,7 +6,7 @@ import { parseJson } from './json.js';
 const cache = new Map();
 
 // Les fichiers de démonstration (« /datasets/… ») sont relatifs à la racine de l'application,
-// qui peut être un sous-dossier (ex. deepdraft.fr/touchdown/).
+// qui peut être un sous-dossier (ex. deepdraft.fr/touchline/).
 export function resolveUrl(url) {
   if (typeof url !== 'string' || !url.startsWith('/') || url.startsWith('//')) return url;
   const base = (import.meta.env?.BASE_URL || '/').replace(/\/$/, '');
