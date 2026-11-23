@@ -21,7 +21,8 @@ class SessionController extends ApiController
     {
         $user = $this->currentUser();
 
-        return $this->ok($user ? $this->out->sessionUser($user) : null);
+        // JsonResponse(null) produirait « {} » : on renvoie explicitement le littéral JSON null (visiteur).
+        return $user ? $this->ok($this->out->sessionUser($user)) : new JsonResponse('null', 200, [], true);
     }
 
     // Traité par le pare-feu (json_login, config/packages/security.yaml) : on n'arrive ici que si le corps n'est pas du JSON.
