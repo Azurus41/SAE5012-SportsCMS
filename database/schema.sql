@@ -1,6 +1,9 @@
 -- Touchline — structure relationnelle du CMS de data storytelling sportif (MySQL 8.4 / MariaDB 11).
 -- Chargée automatiquement par le conteneur MySQL au premier démarrage (docker-entrypoint-initdb.d).
--- Les entités Doctrine du back Symfony devront reprendre ces tables et ces contraintes.
+-- Référence d'origine du modèle relationnel. La structure réellement utilisée est créée par la migration Doctrine
+-- backend/migrations/Version20261123140000.php (mêmes tables, avec les identifiants publics du front — u-admin,
+-- a-pressing… — en clé VARCHAR(40), et l'identifiant de bloc « uid » qui conserve les notes quand un article est modifié).
+-- Avec Docker, ce fichier n'est plus chargé automatiquement : utiliser doctrine:migrations:migrate.
 
 SET NAMES utf8mb4;
 SET time_zone = '+00:00';

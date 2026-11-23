@@ -89,7 +89,8 @@ if [ -d "$OLD_WEB_DIR" ] && [ ! -f "$OLD_WEB_DIR/.touchline-redirect" ]; then
   rm -rf "$OLD_WEB_DIR/assets" "$OLD_WEB_DIR/datasets" "$OLD_WEB_DIR/index.html" "$OLD_WEB_DIR/favicon.svg"
   cat > "$OLD_WEB_DIR/.htaccess" <<HT
 # Touchline a été renommé : /touchdown/… redirige vers $BASE…
-RedirectMatch 301 ^/touchdown/?(.*)\$ ${BASE}\$1
+RewriteEngine On
+RewriteRule ^(.*)\$ ${BASE}\$1 [R=301,L]
 HT
   touch "$OLD_WEB_DIR/.touchline-redirect"
 fi
