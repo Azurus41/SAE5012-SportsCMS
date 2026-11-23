@@ -1,9 +1,11 @@
 # Hébergement Apache (alwaysdata). Généré au build depuis frontend/htaccess.template (sous-dossier = VITE_BASE).
-# Les routes de l'application React (/articles, /editeur/…) sont servies par index.html.
+# Les routes de l'application React (/articles, /editeur/…) sont servies par index.html ; /api/… par Symfony.
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase __BASE__
   RewriteRule ^index\.html$ - [L]
+  # API Symfony : relais api.php -> backend/public/index.php (installé hors du dossier web par scripts/deploy-server.sh).
+  RewriteRule ^api(/.*)?$ api.php [QSA,L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . __BASE__index.html [L]

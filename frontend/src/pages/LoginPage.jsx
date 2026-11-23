@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSession } from '../auth/SessionContext.jsx';
+import api from '../api/index.js';
 import { ROLES } from '../api/seed.js';
 import { BrandMark } from '../components/SiteChrome.jsx';
 import fieldFootball from '../assets/figma/field-football.svg';
 
 // Écran « Connexion (wireframe) » de la maquette Figma (page Admin) : formulaire à gauche, visuel à droite.
 export default function LoginPage() {
-  const { user, login, logout } = useSession();
+  const { user, login, register, logout } = useSession();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const next = safeNext(params.get('next'));
@@ -16,26 +17,45 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [forgot, setForgot] = useState(false);
+  // La création de compte n'existe qu'avec le serveur Symfony (pas en mode démonstration).
+  const canRegister = api.mode === 'http';
+  const [creating, setCreating] = useState(canRegister && params.get('inscription') !== null);
+  const [name, setName] = useState('');
+  const [confirm, setConfirm] = useState('');
   const emailRef = useRef(null);
+  const nameRef = useRef(null);
 
   useEffect(() => {
-    document.title = 'Connexion · Touchline';
-    if (!user) emailRef.current?.focus();
+    document.title = `${creating ? 'Créer un compte' : 'Connexion'} · Touchline`;
+    if (!user) (creating ? nameRef : emailRef).current?.focus();
     return () => {
       document.title = 'Touchline';
     };
-  }, [user]);
+  }, [user, creating]);
+
+  const switchMode = (value) => {
+    setCreating(value);
+    setError('');
+    setPassword('');
+    setConfirm('');
+  };
 
   const submit = async (e) => {
     e.preventDefault();
     setError('');
+    if (creating && password !== confirm) {
+      setError('Les deux mots de passe ne correspondent pas.');
+      return;
+    }
     setBusy(true);
     try {
-      await login(email, password);
+      if (creating) await register({ name, email, password });
+      else await login(email, password);
       navigate(next, { replace: true });
     } catch (err) {
-      setError(err.message || 'Connexion impossible.');
+      setError(err.message || (creating ? 'Création du compte impossible.' : 'Connexion impossible.'));
       setPassword('');
+      setConfirm('');
     } finally {
       setBusy(false);
     }
@@ -67,13 +87,33 @@ export default function LoginPage() {
         ) : (
           <form className="login-form" onSubmit={submit} noValidate>
             <div className="login-title">
-              <h1>Connexion</h1>
-              <p className="muted">Accédez à votre espace pour écrire, noter, déposer des données ou modérer.</p>
+              <h1>{creating ? 'Créer un compte' : 'Connexion'}</h1>
+              <p className="muted">
+                {creating
+                  ? 'Votre compte abonné vous permet de noter les blocs, commenter et signaler. L’administrateur peut ensuite vous attribuer un autre rôle.'
+                  : 'Accédez à votre espace pour écrire, noter, déposer des données ou modérer.'}
+              </p>
             </div>
             {error && (
               <p className="form-error" role="alert">
                 {error}
               </p>
+            )}
+            {creating && (
+              <label className="login-field">
+                <span>Nom affiché</span>
+                <input
+                  ref={nameRef}
+                  type="text"
+                  name="name"
+                  autoComplete="name"
+                  placeholder="Prénom Nom"
+                  maxLength={120}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </label>
             )}
             <label className="login-field">
               <span>Adresse e-mail</span>
@@ -93,29 +133,67 @@ export default function LoginPage() {
               <input
                 type="password"
                 name="password"
-                autoComplete="current-password"
+                autoComplete={creating ? 'new-password' : 'current-password'}
                 placeholder="••••••••"
+                minLength={creating ? 10 : undefined}
+                aria-describedby={creating ? 'password-rule' : undefined}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </label>
-            <div className="login-help">
-              <button type="button" className="link-button" aria-expanded={forgot} onClick={() => setForgot((f) => !f)}>
-                Mot de passe oublié ?
-              </button>
-            </div>
-            {forgot && (
-              <p className="muted small" role="status">
-                Demandez à l’administrateur du site de réinitialiser votre mot de passe.
+            {creating ? (
+              <>
+                <p id="password-rule" className="muted small">
+                  10 caractères au moins.
+                </p>
+                <label className="login-field">
+                  <span>Confirmer le mot de passe</span>
+                  <input
+                    type="password"
+                    name="confirm"
+                    autoComplete="new-password"
+                    placeholder="••••••••"
+                    value={confirm}
+                    onChange={(e) => setConfirm(e.target.value)}
+                    required
+                  />
+                </label>
+              </>
+            ) : (
+              <>
+                <div className="login-help">
+                  <button type="button" className="link-button" aria-expanded={forgot} onClick={() => setForgot((f) => !f)}>
+                    Mot de passe oublié ?
+                  </button>
+                </div>
+                {forgot && (
+                  <p className="muted small" role="status">
+                    Demandez à l’administrateur du site de réinitialiser votre mot de passe.
+                  </p>
+                )}
+              </>
+            )}
+            <button
+              type="submit"
+              className="btn btn-primary btn-block"
+              disabled={busy || !email || !password || (creating && (!name.trim() || !confirm))}
+            >
+              {busy ? (creating ? 'Création…' : 'Connexion…') : creating ? 'Créer mon compte' : 'Se connecter'}
+            </button>
+            {canRegister ? (
+              <p className="muted small">
+                {creating ? 'Déjà un compte ? ' : 'Pas de compte ? '}
+                <button type="button" className="link-button" onClick={() => switchMode(!creating)}>
+                  {creating ? 'Se connecter' : 'Créer un compte'}
+                </button>{' '}
+                — ou lisez les articles <Link to="/articles">sans vous connecter</Link>.
+              </p>
+            ) : (
+              <p className="muted small">
+                Pas de compte ? Vous pouvez lire tous les articles <Link to="/articles">sans vous connecter</Link>.
               </p>
             )}
-            <button type="submit" className="btn btn-primary btn-block" disabled={busy || !email || !password}>
-              {busy ? 'Connexion…' : 'Se connecter'}
-            </button>
-            <p className="muted small">
-              Pas de compte ? Vous pouvez lire tous les articles <Link to="/articles">sans vous connecter</Link>.
-            </p>
           </form>
         )}
 

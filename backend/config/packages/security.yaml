@@ -1,0 +1,46 @@
+security:
+    password_hashers:
+        # Empreintes PBKDF2-SHA256 générées par scripts/create-test-accounts.mjs (comptes de test du dépôt).
+        # Elles sont converties en empreinte « auto » (bcrypt/argon2) à la première connexion réussie.
+        legacy_pbkdf2:
+            algorithm: pbkdf2
+            hash_algorithm: sha256
+            encode_as_base64: true
+            iterations: 120000
+            key_length: 32
+        App\Entity\User:
+            algorithm: auto
+            migrate_from:
+                - legacy_pbkdf2
+
+    providers:
+        # UserRepository charge l'utilisateur par e-mail, sans tenir compte de la casse.
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+
+    firewalls:
+        dev:
+            pattern: ^/(_profiler|_wdt)/
+            security: false
+        main:
+            lazy: true
+            provider: app_user_provider
+            user_checker: App\Security\UserChecker
+            json_login:
+                check_path: api_login
+                username_path: email
+                password_path: password
+                success_handler: App\Security\LoginSuccessHandler
+                failure_handler: App\Security\LoginFailureHandler
+            logout:
+                path: api_logout
+            # 5 essais par minute (par e-mail + adresse IP) contre les attaques par force brute.
+            login_throttling:
+                max_attempts: 5
+                interval: '1 minute'
+
+    # Les droits par rôle sont vérifiés dans les contrôleurs par App\Security\Permissions
+    # (même tableau que frontend/src/auth/permissions.js).
+    access_control: []
+

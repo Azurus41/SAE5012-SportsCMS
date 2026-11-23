@@ -1,0 +1,892 @@
+{
+  "generatedBy": "scripts/export-seed.mjs",
+  "pbkdf2Iterations": 120000,
+  "sports": {
+    "football": "Football",
+    "basketball": "Basket-ball",
+    "athletisme": "Athlétisme",
+    "tennis": "Tennis"
+  },
+  "topics": {
+    "tactique": "Tactique & stratégie",
+    "performance": "Performance",
+    "culture": "Culture & opinion"
+  },
+  "users": [
+    {
+      "id": "u-admin",
+      "name": "Camille Admin",
+      "role": "admin",
+      "banned": false,
+      "email": "admin@touchline.test",
+      "salt": "DWsdg3rYdWBkVp+QZv8wdA==",
+      "hash": "fQ++qSSJFhhOicH3hSzkkeLqPbNgcFLVUmuNYGV578A="
+    },
+    {
+      "id": "u-alex",
+      "name": "Alex Morgan",
+      "role": "author",
+      "banned": false,
+      "email": "auteur@touchline.test",
+      "salt": "jtbUMxYM+WqfstherpKqhA==",
+      "hash": "jgo4bPeMXU7mIXyOYAqJhWJpyREiGFNo7/t/xnZG/sI="
+    },
+    {
+      "id": "u-sam",
+      "name": "Sam Okafor",
+      "role": "author",
+      "banned": false,
+      "email": "auteur2@touchline.test",
+      "salt": "BUmgTl2430r3Ngdd+cdZug==",
+      "hash": "ibE5K+epAZVRYk4OXkhgWki3WS/j9goUKpLtiJXW1ZM="
+    },
+    {
+      "id": "u-leo",
+      "name": "Leo Martin",
+      "role": "editor",
+      "banned": false,
+      "email": "editeur@touchline.test",
+      "salt": "jwHHdxqQdG59YXM3wl4RFA==",
+      "hash": "Mh3tTns21S81wfL6zCbpVJQLgc6uCALxWo4GFs0gJm0="
+    },
+    {
+      "id": "u-jamie",
+      "name": "Jamie Chen",
+      "role": "subscriber",
+      "banned": false,
+      "email": "abonne@touchline.test",
+      "salt": "reQ+BuwRpa6feUguE70KLA==",
+      "hash": "f7zGCC/eKoeNpwbdrQTz9pkUWqf2kys135VJ72wY2zo="
+    },
+    {
+      "id": "u-priya",
+      "name": "Priya Shah",
+      "role": "author",
+      "banned": false,
+      "email": "auteur3@touchline.test",
+      "salt": "kMy/409bfVKKnS6QlQYwyg==",
+      "hash": "OGFnJFPAwg1ZE42p7XkaVXNRyww9WR5WekszNpTYnss="
+    },
+    {
+      "id": "u-nora",
+      "name": "Nora Design",
+      "role": "designer",
+      "banned": false,
+      "email": "designer@touchline.test",
+      "salt": "iqnwpIzEeHmdrQ8yJkfWtw==",
+      "hash": "JC56vAC3/ULPFP1OXJhYIoQpWNctUkg5PMqvX2LQ+Wo="
+    },
+    {
+      "id": "u-dan",
+      "name": "Dan Data",
+      "role": "provider",
+      "banned": false,
+      "email": "fournisseur@touchline.test",
+      "salt": "Ix3W0okuHzF0wSXOnm5tYg==",
+      "hash": "gWKy8WcP0iDBLhM5M9eYsGxrIQOkOe0An49SdYgnk6E="
+    }
+  ],
+  "datasets": [
+    {
+      "id": "ds-pressing",
+      "name": "pressing_sample.csv",
+      "description": "Échantillon illustratif de 60 matchs sur six semaines. Moyennes par équipe.",
+      "url": "/datasets/pressing_sample.csv",
+      "sourceType": "csv",
+      "providerId": "u-dan",
+      "rows": 6,
+      "variables": [
+        {
+          "name": "Semaine",
+          "kind": "categorical"
+        },
+        {
+          "name": "Récupérations hautes",
+          "kind": "numeric"
+        },
+        {
+          "name": "PPDA",
+          "kind": "numeric"
+        },
+        {
+          "name": "Passes progressives",
+          "kind": "numeric"
+        },
+        {
+          "name": "Tirs après récupération",
+          "kind": "numeric"
+        }
+      ],
+      "createdAt": "2026-10-01T09:00:00Z"
+    },
+    {
+      "id": "ds-zones",
+      "name": "recuperations_zones.csv",
+      "description": "Part des récupérations par tiers du terrain, semaines 1 et 6. Données illustratives.",
+      "url": "/datasets/recuperations_zones.csv",
+      "sourceType": "csv",
+      "providerId": "u-dan",
+      "rows": 6,
+      "variables": [
+        {
+          "name": "Zone",
+          "kind": "categorical"
+        },
+        {
+          "name": "Part des récupérations",
+          "kind": "numeric"
+        },
+        {
+          "name": "Semaine",
+          "kind": "categorical"
+        }
+      ],
+      "createdAt": "2026-10-01T09:05:00Z"
+    },
+    {
+      "id": "ds-saison",
+      "name": "saison_equipes.csv",
+      "description": "Bilan de saison de 12 équipes fictives : possession, tirs, buts, xG et points.",
+      "url": "/datasets/saison_equipes.csv",
+      "sourceType": "csv",
+      "providerId": "u-dan",
+      "rows": 12,
+      "variables": [
+        {
+          "name": "Équipe",
+          "kind": "categorical"
+        },
+        {
+          "name": "Style",
+          "kind": "categorical"
+        },
+        {
+          "name": "Possession (%)",
+          "kind": "numeric"
+        },
+        {
+          "name": "Tirs par match",
+          "kind": "numeric"
+        },
+        {
+          "name": "Buts marqués",
+          "kind": "numeric"
+        },
+        {
+          "name": "Buts encaissés",
+          "kind": "numeric"
+        },
+        {
+          "name": "xG",
+          "kind": "numeric"
+        },
+        {
+          "name": "Récupérations hautes",
+          "kind": "numeric"
+        },
+        {
+          "name": "Points",
+          "kind": "numeric"
+        }
+      ],
+      "createdAt": "2026-10-02T10:00:00Z"
+    },
+    {
+      "id": "ds-1500",
+      "name": "dernier_tour_1500m.csv",
+      "description": "Temps au tour de 10 coureurs de 1 500 m (fictifs).",
+      "url": "/datasets/dernier_tour_1500m.csv",
+      "sourceType": "csv",
+      "providerId": "u-dan",
+      "rows": 10,
+      "variables": [
+        {
+          "name": "Athlète",
+          "kind": "categorical"
+        },
+        {
+          "name": "Catégorie",
+          "kind": "categorical"
+        },
+        {
+          "name": "Tour 1 (s)",
+          "kind": "numeric"
+        },
+        {
+          "name": "Tour 2 (s)",
+          "kind": "numeric"
+        },
+        {
+          "name": "Tour 3 (s)",
+          "kind": "numeric"
+        },
+        {
+          "name": "Tour 4 (s)",
+          "kind": "numeric"
+        },
+        {
+          "name": "Temps final (s)",
+          "kind": "numeric"
+        }
+      ],
+      "createdAt": "2026-10-02T11:00:00Z"
+    },
+    {
+      "id": "ds-tennis",
+      "name": "tennis_second_service.csv",
+      "description": "Deuxième service de 8 joueurs fictifs selon la surface.",
+      "url": "/datasets/tennis_second_service.csv",
+      "sourceType": "csv",
+      "providerId": "u-dan",
+      "rows": 24,
+      "variables": [
+        {
+          "name": "Joueur",
+          "kind": "categorical"
+        },
+        {
+          "name": "Surface",
+          "kind": "categorical"
+        },
+        {
+          "name": "Vitesse 2e service (km/h)",
+          "kind": "numeric"
+        },
+        {
+          "name": "% points gagnés 2e service",
+          "kind": "numeric"
+        },
+        {
+          "name": "Doubles fautes par match",
+          "kind": "numeric"
+        }
+      ],
+      "createdAt": "2026-10-03T08:00:00Z"
+    },
+    {
+      "id": "ds-positions",
+      "name": "positions_joueurs.csv",
+      "description": "Positions (0–100) de 280 actions de 4 joueurs fictifs : passes, tirs, récupérations.",
+      "url": "/datasets/positions_joueurs.csv",
+      "sourceType": "csv",
+      "providerId": "u-dan",
+      "rows": 280,
+      "variables": [
+        {
+          "name": "Joueur",
+          "kind": "categorical"
+        },
+        {
+          "name": "Poste",
+          "kind": "categorical"
+        },
+        {
+          "name": "Action",
+          "kind": "categorical"
+        },
+        {
+          "name": "Semaine",
+          "kind": "categorical"
+        },
+        {
+          "name": "x",
+          "kind": "numeric"
+        },
+        {
+          "name": "y",
+          "kind": "numeric"
+        }
+      ],
+      "createdAt": "2026-10-04T08:00:00Z"
+    },
+    {
+      "id": "ds-classement",
+      "name": "Classement de la ligue (JSON)",
+      "description": "Classement au format de l’API football-data.org (/v4/competitions/{id}/standings). Équipes fictives.",
+      "url": "/datasets/classement_ligue.json",
+      "sourceType": "json",
+      "jsonPath": "standings.0.table",
+      "providerId": "u-dan",
+      "rows": 12,
+      "variables": [
+        {
+          "name": "position",
+          "kind": "numeric"
+        },
+        {
+          "name": "team.id",
+          "kind": "numeric"
+        },
+        {
+          "name": "team.name",
+          "kind": "categorical"
+        },
+        {
+          "name": "team.shortName",
+          "kind": "categorical"
+        },
+        {
+          "name": "team.tla",
+          "kind": "categorical"
+        },
+        {
+          "name": "playedGames",
+          "kind": "numeric"
+        },
+        {
+          "name": "won",
+          "kind": "numeric"
+        },
+        {
+          "name": "draw",
+          "kind": "numeric"
+        },
+        {
+          "name": "lost",
+          "kind": "numeric"
+        },
+        {
+          "name": "points",
+          "kind": "numeric"
+        },
+        {
+          "name": "goalsFor",
+          "kind": "numeric"
+        },
+        {
+          "name": "goalsAgainst",
+          "kind": "numeric"
+        },
+        {
+          "name": "goalDifference",
+          "kind": "numeric"
+        }
+      ],
+      "createdAt": "2026-10-05T08:00:00Z"
+    },
+    {
+      "id": "ds-iris",
+      "name": "iris.csv",
+      "description": "Jeu d'exemple fourni avec le sujet (150 fleurs, 3 espèces).",
+      "url": "/datasets/iris.csv",
+      "sourceType": "csv",
+      "providerId": "u-dan",
+      "rows": 150,
+      "variables": [
+        {
+          "name": "sepal length",
+          "kind": "numeric"
+        },
+        {
+          "name": "sepal width",
+          "kind": "numeric"
+        },
+        {
+          "name": "petal length",
+          "kind": "numeric"
+        },
+        {
+          "name": "petal width",
+          "kind": "numeric"
+        },
+        {
+          "name": "class",
+          "kind": "categorical"
+        }
+      ],
+      "createdAt": "2026-09-28T08:00:00Z"
+    }
+  ],
+  "articles": [
+    {
+      "status": "published",
+      "type": "dashboard",
+      "bannerMediaId": null,
+      "reports": [],
+      "themeOverride": null,
+      "id": "a-pressing",
+      "slug": "le-pressing-haut-change-le-jeu",
+      "title": "Le pressing haut change le jeu",
+      "summary": "Ce que six semaines de données de match nous apprennent sur la récupération du ballon plus haut sur le terrain — et pourquoi l’intensité seule ne suffit pas.",
+      "sport": "football",
+      "topic": "tactique",
+      "authorId": "u-alex",
+      "publishedAt": "2026-10-06T08:00:00Z",
+      "blocks": [
+        {
+          "id": "b-1",
+          "type": "heading",
+          "text": "Le déplacement vers l’avant",
+          "level": 2
+        },
+        {
+          "id": "b-2",
+          "type": "text",
+          "text": "Pendant des années, la possession a été synonyme de contrôle. Mais un nombre croissant d’équipes trouvent désormais un avantage dans ce qui se passe immédiatement après la perte du ballon. L’objectif est simple : récupérer le ballon avant que l’adversaire ne puisse se stabiliser."
+        },
+        {
+          "id": "b-3",
+          "type": "text",
+          "text": "Dans notre échantillon illustratif de six semaines, les récupérations hautes sont passées de 7,2 à 10,4 par match. Cela représente une hausse de 44 %. L’aspect intéressant n’est pas seulement la fréquence à laquelle les équipes récupèrent le ballon, mais aussi l’endroit où cela se produit — et ce qu’elles font ensuite."
+        },
+        {
+          "id": "b-4",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-pressing",
+          "chartType": "kpi",
+          "series": [
+            "Récupérations hautes",
+            "PPDA",
+            "Tirs après récupération"
+          ],
+          "aggregate": "last",
+          "title": "",
+          "caption": ""
+        },
+        {
+          "id": "b-5",
+          "type": "heading",
+          "text": "Les chiffres derrière le pressing",
+          "level": 2
+        },
+        {
+          "id": "b-6",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-pressing",
+          "chartType": "line",
+          "x": "Semaine",
+          "series": [
+            "Récupérations hautes"
+          ],
+          "title": "Récupérer le ballon plus haut",
+          "subtitle": "Récupérations hautes par match · semaines 1 à 6",
+          "caption": "Fig. 1 — Récupérations à moins de 40 mètres du but adverse. Données illustratives."
+        },
+        {
+          "id": "b-7",
+          "type": "text",
+          "text": "Le schéma indique un déplacement coordonné. Les équipes autorisent moins de passes avant une action défensive, tandis que près de la moitié des récupérations se produisent désormais dans le tiers offensif. Les deux indicateurs suggèrent une approche plus proactive sans prouver que le pressing seul entraîne de meilleurs résultats."
+        },
+        {
+          "id": "b-8",
+          "type": "chart",
+          "colors": {
+            "__default": "#bfc6d1",
+            "S6": "#2458e8"
+          },
+          "datasetId": "ds-pressing",
+          "chartType": "bar",
+          "x": "Semaine",
+          "y": "PPDA",
+          "aggregate": "mean",
+          "title": "Moins de temps pour construire",
+          "subtitle": "PPDA · une valeur plus basse signifie plus de pression",
+          "caption": "Fig. 2 — Passes par action défensive. Une baisse de 25 % sur l’échantillon.",
+          "width": "half"
+        },
+        {
+          "id": "b-9",
+          "type": "chart",
+          "colors": {
+            "Tiers offensif (haut)": "#2458e8",
+            "Tiers médian": "#bfc6d1",
+            "Tiers défensif (bas)": "#dee1e5"
+          },
+          "datasetId": "ds-zones",
+          "chartType": "pie",
+          "x": "Zone",
+          "y": "Part des récupérations",
+          "aggregate": "sum",
+          "filter": {
+            "column": "Semaine",
+            "value": "S6"
+          },
+          "title": "Où le ballon est récupéré",
+          "subtitle": "Part des récupérations · semaine 6",
+          "caption": "Fig. 3 — Les récupérations dans le tiers offensif représentent la part la plus élevée.",
+          "width": "half"
+        },
+        {
+          "id": "b-10",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-positions",
+          "chartType": "heatmap",
+          "x": "x",
+          "y": "y",
+          "color": "Joueur",
+          "filter": {
+            "column": "Action",
+            "value": "Récupération"
+          },
+          "title": "Où chaque joueur récupère le ballon",
+          "subtitle": "Récupérations · choisissez un joueur",
+          "caption": "Fig. 4 — Positions des récupérations, sens du jeu vers la droite. Données fictives."
+        },
+        {
+          "id": "b-11",
+          "type": "heading",
+          "text": "Pressing avec une intention",
+          "level": 2
+        },
+        {
+          "id": "b-12",
+          "type": "text",
+          "text": "Un pressing ne fonctionne que si l’action suivante est claire. Le premier coureur ferme une voie de passe ; le second protège l’espace derrière. Sans cette structure, l’intensité peut simplement ouvrir le terrain à un adversaire qui échappe au premier duel."
+        },
+        {
+          "id": "b-13",
+          "type": "quote",
+          "text": "Le meilleur pressing n’est pas la course la plus rapide. C’est celui qui rend la prochaine passe prévisible.",
+          "cite": "Alex Morgan / Analyse Touchline"
+        },
+        {
+          "id": "b-14",
+          "type": "heading",
+          "text": "La conclusion",
+          "level": 2
+        },
+        {
+          "id": "b-15",
+          "type": "text",
+          "text": "Regardez l’espace autour du ballon, et non seulement le joueur qui court. Notre échantillon suggère que le pressing réussi est une habitude collective : distances plus courtes, déclencheurs partagés et un plan pour le moment où la possession change de mains."
+        }
+      ]
+    },
+    {
+      "status": "published",
+      "type": "classic",
+      "bannerMediaId": null,
+      "reports": [],
+      "themeOverride": null,
+      "id": "a-espace",
+      "slug": "la-valeur-de-l-espace",
+      "title": "La valeur de l’espace, pas seulement des tirs",
+      "summary": "Pourquoi les meilleures attaques créent des occasions avant même que le joueur ne touche le ballon.",
+      "sport": "basketball",
+      "topic": "tactique",
+      "authorId": "u-leo",
+      "publishedAt": "2026-10-05T08:00:00Z",
+      "blocks": [
+        {
+          "id": "b-16",
+          "type": "heading",
+          "text": "Créer avant de recevoir",
+          "level": 2
+        },
+        {
+          "id": "b-17",
+          "type": "text",
+          "text": "Les meilleures attaques ne se mesurent pas seulement au nombre de tirs. Elles se lisent dans les déplacements sans ballon, dans les écrans qui libèrent un couloir et dans la façon dont un joueur attire deux défenseurs."
+        },
+        {
+          "id": "b-18",
+          "type": "text",
+          "text": "Cet article classique ne contient que du texte : il montre qu’un auteur peut publier sans visualisation, contrairement aux articles de type « narration »."
+        }
+      ]
+    },
+    {
+      "status": "published",
+      "type": "dashboard",
+      "bannerMediaId": null,
+      "reports": [],
+      "themeOverride": null,
+      "id": "a-dernier-tour",
+      "slug": "cadencer-le-dernier-tour-parfait",
+      "title": "Cadencer le dernier tour parfait",
+      "summary": "Un regard plus précis sur les petites décisions qui séparent une bonne fin de course d’une grande.",
+      "sport": "athletisme",
+      "topic": "performance",
+      "authorId": "u-sam",
+      "publishedAt": "2026-10-04T08:00:00Z",
+      "blocks": [
+        {
+          "id": "b-19",
+          "type": "heading",
+          "text": "Le dernier tour se prépare dès le troisième",
+          "level": 2
+        },
+        {
+          "id": "b-20",
+          "type": "text",
+          "text": "Les coureurs élite ralentissent rarement au troisième tour : ils s’y placent. Le graphique compare les temps de chaque tour."
+        },
+        {
+          "id": "b-21",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-1500",
+          "chartType": "line",
+          "x": "Athlète",
+          "series": [
+            "Tour 3 (s)",
+            "Tour 4 (s)"
+          ],
+          "title": "Troisième et dernier tour",
+          "subtitle": "Temps au tour en secondes",
+          "caption": "Données fictives."
+        },
+        {
+          "id": "b-22",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-1500",
+          "chartType": "histogram",
+          "x": "Temps final (s)",
+          "bins": 6,
+          "title": "Distribution des temps finaux",
+          "caption": "Données fictives."
+        }
+      ]
+    },
+    {
+      "status": "published",
+      "type": "dashboard",
+      "bannerMediaId": null,
+      "reports": [],
+      "themeOverride": null,
+      "id": "a-service",
+      "slug": "le-deuxieme-service-reevalue",
+      "title": "Le deuxième service, réévalué",
+      "summary": "Risque, placement et chiffres derrière un deuxième service plus agressif.",
+      "sport": "tennis",
+      "topic": "performance",
+      "authorId": "u-priya",
+      "publishedAt": "2026-10-03T08:00:00Z",
+      "blocks": [
+        {
+          "id": "b-23",
+          "type": "heading",
+          "text": "Servir plus fort, gagner plus de points ?",
+          "level": 2
+        },
+        {
+          "id": "b-24",
+          "type": "text",
+          "text": "Chaque point représente un joueur sur une surface. Survolez un point pour lire le détail."
+        },
+        {
+          "id": "b-25",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-tennis",
+          "chartType": "scatter",
+          "x": "Vitesse 2e service (km/h)",
+          "y": "% points gagnés 2e service",
+          "color": "Surface",
+          "title": "Vitesse et efficacité du deuxième service",
+          "caption": "Données fictives."
+        }
+      ]
+    },
+    {
+      "status": "published",
+      "type": "dashboard",
+      "bannerMediaId": null,
+      "reports": [],
+      "themeOverride": null,
+      "id": "a-construire",
+      "slug": "construire-depuis-l-arriere",
+      "title": "Construire depuis l’arrière sous pression",
+      "summary": "Comment les réseaux de passes révèlent les trajets que les équipes utilisent pour dépasser la première ligne.",
+      "sport": "football",
+      "topic": "tactique",
+      "authorId": "u-leo",
+      "publishedAt": "2026-10-02T08:00:00Z",
+      "blocks": [
+        {
+          "id": "b-26",
+          "type": "heading",
+          "text": "Possession et résultats",
+          "level": 2
+        },
+        {
+          "id": "b-27",
+          "type": "text",
+          "text": "La possession seule ne garantit pas les points. Le graphique compare les styles de jeu sur la saison."
+        },
+        {
+          "id": "b-28",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-saison",
+          "chartType": "bar",
+          "x": "Style",
+          "y": "Points",
+          "aggregate": "mean",
+          "title": "Points moyens par style de jeu",
+          "caption": "Données fictives."
+        },
+        {
+          "id": "b-29",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-saison",
+          "chartType": "scatter",
+          "x": "Possession (%)",
+          "y": "Points",
+          "color": "Style",
+          "title": "Possession et points",
+          "caption": "Données fictives."
+        },
+        {
+          "id": "b-30",
+          "type": "heading",
+          "text": "Le classement",
+          "level": 2
+        },
+        {
+          "id": "b-31",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-classement",
+          "chartType": "ranking",
+          "x": "team.name",
+          "y": "points",
+          "series": [
+            "goalDifference",
+            "goalsFor"
+          ],
+          "aggregate": "sum",
+          "limit": 6,
+          "title": "Classement de la ligue",
+          "caption": "Source JSON au format football-data.org. Équipes fictives."
+        },
+        {
+          "id": "b-32",
+          "type": "heading",
+          "text": "Face-à-face",
+          "level": 2
+        },
+        {
+          "id": "b-33",
+          "type": "text",
+          "text": "Choisissez deux équipes pour comparer leurs statistiques de saison."
+        },
+        {
+          "id": "b-34",
+          "type": "chart",
+          "colors": {},
+          "datasetId": "ds-saison",
+          "chartType": "versus",
+          "x": "Équipe",
+          "series": [
+            "Possession (%)",
+            "Tirs par match",
+            "Buts marqués",
+            "xG",
+            "Récupérations hautes"
+          ],
+          "aggregate": "mean",
+          "left": "Blois Atlético",
+          "right": "Tours Olympique",
+          "title": "Deux styles, deux saisons",
+          "caption": "Données fictives."
+        }
+      ]
+    },
+    {
+      "status": "published",
+      "type": "classic",
+      "bannerMediaId": null,
+      "reports": [],
+      "themeOverride": null,
+      "id": "a-semaine",
+      "slug": "semaine-de-course-durable",
+      "title": "Qu’est-ce qu’une semaine de course durable ?",
+      "summary": "Équilibrer le volume et la récupération sans perdre les séances qui comptent.",
+      "sport": "athletisme",
+      "topic": "culture",
+      "authorId": "u-sam",
+      "publishedAt": "2026-10-01T08:00:00Z",
+      "blocks": [
+        {
+          "id": "b-35",
+          "type": "heading",
+          "text": "Volume, intensité, récupération",
+          "level": 2
+        },
+        {
+          "id": "b-36",
+          "type": "text",
+          "text": "Une semaine durable alterne séances clés et jours faciles. La régularité compte plus que le pic de volume."
+        }
+      ]
+    },
+    {
+      "status": "draft",
+      "type": "dashboard",
+      "bannerMediaId": null,
+      "reports": [],
+      "themeOverride": null,
+      "id": "a-brouillon",
+      "slug": "brouillon-xg-et-points",
+      "title": "Les xG expliquent-ils le classement ?",
+      "summary": "Brouillon : comparer buts attendus et points obtenus.",
+      "sport": "football",
+      "topic": "performance",
+      "authorId": "u-alex",
+      "publishedAt": null,
+      "blocks": [
+        {
+          "id": "b-37",
+          "type": "heading",
+          "text": "Hypothèse",
+          "level": 2
+        },
+        {
+          "id": "b-38",
+          "type": "text",
+          "text": "À compléter."
+        }
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "id": "c-1",
+      "articleId": "a-pressing",
+      "userId": "u-jamie",
+      "text": "La distinction entre pression et coordination est importante. J’aimerais voir comment ces chiffres évoluent contre des équipes qui construisent avec trois défenseurs centraux.",
+      "createdAt": "2026-10-06T18:00:00Z"
+    },
+    {
+      "id": "c-2",
+      "articleId": "a-pressing",
+      "userId": "u-priya",
+      "text": "Utile de voir la tendance PPDA aux côtés de l’endroit où le ballon est récupéré. Un chiffre plus bas raconte une histoire beaucoup plus claire lorsqu’on sait où se produisent les récupérations.",
+      "createdAt": "2026-10-07T09:30:00Z"
+    }
+  ],
+  "ratings": [
+    {
+      "articleId": "a-pressing",
+      "blockId": "b-6",
+      "userId": "u-jamie",
+      "value": 5
+    },
+    {
+      "articleId": "a-pressing",
+      "blockId": "b-6",
+      "userId": "u-priya",
+      "value": 4
+    },
+    {
+      "articleId": "a-pressing",
+      "blockId": "b-9",
+      "userId": "u-jamie",
+      "value": 4
+    }
+  ],
+  "themes": [
+    {
+      "id": "site",
+      "scope": "site",
+      "target": null,
+      "values": {}
+    }
+  ]
+}

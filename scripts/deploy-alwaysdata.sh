@@ -1,31 +1,16 @@
 #!/usr/bin/env bash
-# Construit le front et le publie sur https://deepdraft.fr/touchdown/ (hébergement alwaysdata).
+# Met en ligne Touchline sur https://deepdraft.fr/touchline/ depuis votre poste (Git Bash) :
+# se connecte en SSH à alwaysdata et lance scripts/deploy-server.sh sur le serveur
+# (mise à jour du dépôt, back Symfony, migrations, build du front, publication).
 # Prérequis : la clé SSH de déploiement (~/.ssh/alwaysdata_touchline) est autorisée dans
-# l'administration alwaysdata (Accès distant > SSH/SFTP > Clés SSH).
-# Usage (Git Bash) : ./scripts/deploy-alwaysdata.sh
+# l'administration alwaysdata (Accès distant > SSH/SFTP > Clés SSH), et l'installation initiale est faite (README).
+# Usage : ./scripts/deploy-alwaysdata.sh [branche]   (main par défaut)
 set -euo pipefail
 
+BRANCH="${1:-${BRANCH:-main}}"
 ACCOUNT="${ALWAYSDATA_ACCOUNT:-azurus}"
-REMOTE_DIR="${REMOTE_DIR:-www/deepdraft/touchdown}"
-BASE="${VITE_BASE:-/touchdown/}"
 KEY="${SSH_KEY:-$HOME/.ssh/alwaysdata_touchline}"
 HOST="$ACCOUNT@ssh-$ACCOUNT.alwaysdata.net"
-SSH=(ssh -i "$KEY" -o IdentitiesOnly=yes -o BatchMode=yes)
 
-cd "$(dirname "$0")/../frontend"
-npm test
-# MSYS_NO_PATHCONV : empêche Git Bash de transformer « /touchdown/ » en chemin Windows.
-MSYS_NO_PATHCONV=1 VITE_BASE="$BASE" npm run build
-
-# On remplace uniquement les fichiers de Touchline, jamais le reste du site.
-tar -C dist -cf - . | "${SSH[@]}" "$HOST" "
-  set -e
-  D=\$HOME/$REMOTE_DIR
-  mkdir -p \"\$D\"
-  rm -rf \"\$D/assets\" \"\$D/datasets\" \"\$D/index.html\" \"\$D/.htaccess\" \"\$D/favicon.svg\"
-  tar -C \"\$D\" -xf -
-  find \"\$D\" -type d -exec chmod 755 {} +
-  find \"\$D\" -type f -exec chmod 644 {} +
-"
-
-curl -s -o /dev/null -w "https://deepdraft.fr${BASE} -> HTTP %{http_code}\n" "https://deepdraft.fr${BASE}"
+ssh -i "$KEY" -o IdentitiesOnly=yes -o BatchMode=yes "$HOST" \
+  "cd ~/touchline && git fetch -q origin '$BRANCH' && git checkout -q -B '$BRANCH' 'origin/$BRANCH' && BRANCH='$BRANCH' SKIP_PULL=1 bash scripts/deploy-server.sh"

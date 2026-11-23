@@ -88,6 +88,10 @@ const mockApi = {
       }
       return delay(sessionUser(user));
     },
+    // Les comptes de démonstration sont fixes : la création de compte demande le serveur Symfony.
+    async register() {
+      throw new ApiError(501, 'La création de compte n’est possible qu’avec le serveur (version en ligne).');
+    },
     async logout() {
       try {
         localStorage.removeItem(SESSION_KEY);
@@ -107,6 +111,16 @@ const mockApi = {
       const user = db.users.find((u) => u.id === id);
       if (!user) throw new ApiError(404, 'Utilisateur introuvable.');
       user.banned = banned;
+      persist();
+      return delay(publicUser(user));
+    },
+    async setRole(id, role) {
+      const me = currentUser();
+      guard(can.banAuthor(me));
+      const user = db.users.find((u) => u.id === id);
+      if (!user) throw new ApiError(404, 'Utilisateur introuvable.');
+      if (user.id === me.id) throw new ApiError(403, 'Vous ne pouvez pas modifier votre propre rôle.');
+      user.role = role;
       persist();
       return delay(publicUser(user));
     },

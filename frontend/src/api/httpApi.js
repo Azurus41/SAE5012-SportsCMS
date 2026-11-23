@@ -1,5 +1,5 @@
-// Client de l'API Symfony (contrat décrit dans docs/api.md).
-// Utilisé quand VITE_API_URL est définie ; la session repose sur un cookie (credentials: 'include').
+// Client de l'API Symfony (backend/, contrat décrit dans docs/api.md).
+// Utilisé quand VITE_API_URL est définie (ex. /touchline sur alwaysdata) ; la session repose sur un cookie.
 
 const BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
@@ -29,10 +29,12 @@ const httpApi = {
     current: () => call('GET', '/me').catch(() => null),
     login: (email, password) => call('POST', '/login', { email, password }),
     logout: () => call('POST', '/logout'),
+    register: ({ name, email, password }) => call('POST', '/register', { name, email, password }),
   },
   users: {
     list: () => call('GET', '/users'),
     setBanned: (id, banned) => call('PATCH', `/users/${enc(id)}`, { banned }),
+    setRole: (id, role) => call('PATCH', `/users/${enc(id)}`, { role }),
   },
   articles: {
     list: () => call('GET', '/articles'),

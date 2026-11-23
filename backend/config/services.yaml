@@ -1,0 +1,19 @@
+parameters:
+    app.upload_dir: '%env(resolve:UPLOAD_DIR)%'
+    app.upload_url: '%env(UPLOAD_URL)%'
+    app.seed_file: '%kernel.project_dir%/fixtures/seed.json'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            string $uploadDir: '%app.upload_dir%'
+            string $uploadUrl: '%app.upload_url%'
+            string $seedFile: '%app.seed_file%'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Entity/'
+            - '../src/Kernel.php'
