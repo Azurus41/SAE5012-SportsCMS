@@ -36,15 +36,15 @@ APP_ENV=prod
 APP_DEBUG=0
 APP_SECRET=$secret
 # Base MySQL/MariaDB créée dans l'administration alwaysdata (Bases de données > MySQL).
-DATABASE_URL="mysql://UTILISATEUR:MOT_DE_PASSE@mysql-azurus.alwaysdata.net:3306/azurus_touchline?serverVersion=mariadb-10.11.0&charset=utf8mb4"
+DATABASE_URL="mysql://azurus_touchline:MOT_DE_PASSE@mysql-azurus.alwaysdata.net:3306/azurus_touchline?serverVersion=mariadb-11.4.0&charset=utf8mb4"
 UPLOAD_DIR=$WEB_DIR/uploads
 UPLOAD_URL=${BASE}uploads
 ENV
   chmod 600 .env.local
-  echo "backend/.env.local créé : renseignez DATABASE_URL (utilisateur, mot de passe, version), puis relancez ce script."
+  echo "backend/.env.local créé : remplacez MOT_DE_PASSE dans DATABASE_URL, puis relancez ce script."
   exit 1
 fi
-if grep -q 'UTILISATEUR:MOT_DE_PASSE' .env.local; then
+if grep -q ':MOT_DE_PASSE@' .env.local; then
   echo "Renseignez DATABASE_URL dans $REPO_DIR/backend/.env.local, puis relancez ce script."
   exit 1
 fi
